@@ -1,4 +1,4 @@
-import { Handle } from "reactflow";
+import { Handle, Position } from "reactflow";
 
 function BaseNode({ title, inputs = [], outputs = [], children }) {
     return (
@@ -7,7 +7,8 @@ function BaseNode({ title, inputs = [], outputs = [], children }) {
             padding: "10px",
             borderRadius: "8px",
             background: "white",
-            minWidth: "150px"
+            minWidth: "150px",
+            position: "relative"
         }}>
             {/* Title */}
             <h3>{title}</h3>
@@ -22,19 +23,25 @@ function BaseNode({ title, inputs = [], outputs = [], children }) {
                 <Handle
                   key={index}
                   type="target"
-                  position="left"
+                  position={Position.Left}
                   id={input}
+                  style={{
+                    top: `${(index + 1) * (100 / (inputs.length + 1))}%`,
+                  }}
                 />
             )
             )}
 
             {/* Right side- Outputs */}
-            {outputs.map((input, index) => (
+            {outputs.map((output, index) => (
                 <Handle
                   key={index}
                   type="source"
-                  position="right"
+                  position={Position.Right}
                   id={output}
+                  style={{
+                    top: `${(index + 1) * (100 / (outputs.length + 1))}%`,
+                  }}
                 />
             )
             )}

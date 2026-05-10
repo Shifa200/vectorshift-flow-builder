@@ -20,6 +20,8 @@ export const InputNode = ({ id, data }) => {
        title="Input"
        outputs={[`${id}-value`]}
     >
+    <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+
         <label>
           Name:
           <input 
@@ -36,6 +38,7 @@ export const InputNode = ({ id, data }) => {
             <option value="File">File</option>
           </select>
         </label>
+      </div>
     </BaseNode>
       
   );

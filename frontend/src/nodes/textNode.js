@@ -13,7 +13,7 @@ export const TextNode = ({ id, data }) => {
   return (
       <BaseNode
        title="Text"
-       output={[`${id}-output`]}
+       outputs={[`${id}-output`]}
       >
       <div>
         <label>
