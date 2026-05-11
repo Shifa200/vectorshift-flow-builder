@@ -21,19 +21,23 @@ export const OutputNode = ({ id, data }) => {
      inputs={[`${id}-value`]}
      >
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+      <div className="flex flex-col gap-2">
         
-        <label>
+        <label className="text-xs text-gray-600">
           Name:
           <input 
+            className="w-full mt-1 border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             type="text" 
             value={currName} 
             onChange={handleNameChange} 
           />
         </label>
-        <label>
+        <label className="text-xs text-gray-600">
           Type:
-          <select value={outputType} onChange={handleTypeChange}>
+          <select 
+          className= "w-full mt-1 border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          value={outputType}
+          onChange={handleTypeChange}>
             <option value="Text">Text</option>
             <option value="File">Image</option>
           </select>

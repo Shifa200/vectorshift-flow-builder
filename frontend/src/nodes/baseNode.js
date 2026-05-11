@@ -2,12 +2,14 @@ import { Handle, Position } from "reactflow";
 
 function BaseNode({ title, inputs = [], outputs = [], children }) {
     return (
-            <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4 min-w-[180px] relative">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 min-w-[180px] relative transition hover:shadow-1g hover:scale-[1.02]">
 
             {/* Title */}
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs bg-gray-100 px-2 py-1 rounded-md">
                 {title}
-            </h3>
+              </span>
+            </div>
 
             {/* Content */}
             <div className="text-sm text-gray-600 space-y-2">
@@ -21,7 +23,7 @@ function BaseNode({ title, inputs = [], outputs = [], children }) {
                   type="target"
                   position={Position.Left}
                   id={input}
-                  className="!bg-blue-500"
+                  className="!bg-blue-500 !w-3 !h-3 hover: !scale-125 transition"
                   style={{
                     top: `${(index + 1) * (100 / (inputs.length + 1))}%`,
                   }}
@@ -36,7 +38,7 @@ function BaseNode({ title, inputs = [], outputs = [], children }) {
                   type="source"
                   position={Position.Right}
                   id={output}
-                  className="!bg-green-500"
+                  className="!bg-green-500 !w-3 !h-3 hover: !scale-125 transition"
                   style={{
                     top: `${(index + 1) * (100 / (outputs.length + 1))}%`,
                   }}
