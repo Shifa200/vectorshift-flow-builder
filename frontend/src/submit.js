@@ -1,8 +1,39 @@
-export const SubmitButton = () => {
+export const SubmitButton = ({nodes,edges}) => {
+    const handleSubmit = async () => {
+    try {
+
+        const response = await fetch(
+            "http://localhost:8000/pipelines/parse",
+            {
+              method: "POST",
+              headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nodes,
+                edges,
+            }),
+            }
+        );
+
+        const data = await response.json();
+
+        alert(`
+            Nodes: ${data.num_nodes}
+            Edges: ${data.num_edges}
+            Is Dag: ${data.is_dag}
+            `);
+    } catch (error) {
+        console.error(error);
+        alert("Something went wromg while submitting pipeline.");
+    }
+    };
+
+
   return (
     <div className="flex items-center justify-center mt-6">
       <button
-        type="submit"
+        onClick={handleSubmit}
         className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow transition"
       >
         Submit
