@@ -2,7 +2,7 @@ import { Handle, Position } from "reactflow";
 
 function BaseNode({ title, inputs = [], outputs = [], children }) {
     return (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 min-w-[180px] relative transition hover:shadow-1g hover:scale-[1.02]">
+            <div className="bg-white-2xl shadow-sm border border-gray-200 p-4 min-w-[180px] relative transition hover:shadow-1g hover:scale-[1.02]">
 
             {/* Title */}
             <div className="flex items-center gap-2 mb-2">
