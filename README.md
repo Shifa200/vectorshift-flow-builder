@@ -70,6 +70,7 @@ Implemented graph cycle detection logic to determine whether the pipeline forms 
 
 ### Deployment
 - Vercel
+- Render
 
 ---
 
@@ -77,6 +78,7 @@ Implemented graph cycle detection logic to determine whether the pipeline forms 
 
 ### Frontend
 
+```bash
 cd frontend
 npm install
 npm start
@@ -84,10 +86,10 @@ npm start
 
 ### Backend
 
+```bash
 cd backend
 uvicorn main:app --reload
 ```
-
 ---
 
 ## 📸 Screenshots
@@ -124,7 +126,8 @@ Through this project I learned:
 
 ---
 
-💡 Future Improvements
+## 💡 Future Improvements
+
 Save/load pipelines
 Export pipeline configurations
 Improved DAG visualization
