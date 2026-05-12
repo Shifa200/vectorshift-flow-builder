@@ -1,6 +1,10 @@
 export const SubmitButton = ({nodes,edges}) => {
     const handleSubmit = async () => {
     try {
+        if (nodes.length === 0) {
+          alert("Please add at least one node before submitting.");
+          return;
+        }
 
         const response = await fetch(
             "http://localhost:8000/pipelines/parse",
