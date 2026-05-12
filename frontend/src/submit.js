@@ -7,7 +7,7 @@ export const SubmitButton = ({nodes,edges}) => {
         }
 
         const response = await fetch(
-            "http://localhost:8000/pipelines/parse",
+            "https://vectorshift-flow-builder.onrender.com/pipelines/parse",
             {
               method: "POST",
               headers: {
