@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 import { useState, useRef, useCallback } from 'react';
-import ReactFlow, { Controls, Background, MiniMap, reconnectEdge, StepEdge } from 'reactflow';
+import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { InputNode } from './nodes/inputNode';
@@ -45,7 +45,7 @@ const selector = (state) => ({
 
 export const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
-    const edgeReconnectSuccessful = useRef(null);
+    const edgeReconnectSuccessful = useRef(true);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const {
       nodes,
@@ -71,12 +71,24 @@ export const PipelineUI = () => {
     const onReconnect = useCallback((oldEdge, newConnection) => {
       edgeReconnectSuccessful.current = true;
 
-      setEdges((els) => reconnectEdge(oldEdge, newConnection, els))
+      setEdges((eds) => eds.map((edge) =>{
+        if (edge.id === oldEdge.id) {
+          return {
+            ...edge,
+            source: newConnection.source,
+            target: newConnection.target,
+            sourceHandle: newConnection.sourceHandle,
+            targetHandle: newConnection.targetHandle,
+          };
+        }
+        return edge;
+      }
+      ) );
 
     },[setEdges]);
 
     const onReconnectEnd = useCallback((_, edge) => {
-      if (!edgeReconnectSuccessful) {
+      if (!edgeReconnectSuccessful.current) {
         setEdges((eds) => eds.filter((e) => e.id !== edge.id))
       }
     },[setEdges] )
@@ -129,9 +141,9 @@ export const PipelineUI = () => {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                onReconnectStart={onReconnectStart}
-                onReconnect={onReconnect}
-                onReconnectEnd={onReconnectEnd}
+                onEdgeUpdateStart={onReconnectStart}
+                onEdgeUpdate={onReconnect}
+                onEdgeUpdateEnd={onReconnectEnd}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}
