@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 import { useState, useRef, useCallback } from 'react';
-import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
+import ReactFlow, { Controls, Background, MiniMap, reconnectEdge, StepEdge } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { InputNode } from './nodes/inputNode';
@@ -35,6 +35,7 @@ const nodeTypes = {
 const selector = (state) => ({
   nodes: state.nodes,
   edges: state.edges,
+  setEdges: state.setEdges,
   getNodeID: state.getNodeID,
   addNode: state.addNode,
   onNodesChange: state.onNodesChange,
@@ -44,10 +45,12 @@ const selector = (state) => ({
 
 export const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
+    const edgeReconnectSuccessful = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const {
       nodes,
       edges,
+      setEdges,
       getNodeID,
       addNode,
       onNodesChange,
@@ -59,6 +62,25 @@ export const PipelineUI = () => {
       let nodeData = { id: nodeID, nodeType: `${type}` };
       return nodeData;
     }
+
+    const onReconnectStart = useCallback(() => {
+      edgeReconnectSuccessful.current = false;
+    }, []);
+
+
+    const onReconnect = useCallback((oldEdge, newConnection) => {
+      edgeReconnectSuccessful.current = true;
+
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els))
+
+    },[setEdges]);
+
+    const onReconnectEnd = useCallback((_, edge) => {
+      if (!edgeReconnectSuccessful) {
+        setEdges((eds) => eds.filter((e) => e.id !== edge.id))
+      }
+    },[setEdges] )
+
 
     const onDrop = useCallback(
         (event) => {
@@ -107,6 +129,9 @@ export const PipelineUI = () => {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                onReconnectStart={onReconnectStart}
+                onReconnect={onReconnect}
+                onReconnectEnd={onReconnectEnd}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}
@@ -115,6 +140,7 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
                 deleteKeyCode={["Backspace", "Delete"]}
+
             >
                 <Background color="#e5e7eb" gap={20} />
                 <Controls />

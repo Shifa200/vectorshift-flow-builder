@@ -25,6 +25,13 @@ export const useStore = create((set, get) => ({
             nodes: [...get().nodes, node]
         });
     },
+
+    setEdges: (edges) => {
+      set({
+        edges: typeof edges === "function" ? edges(get().edges) : edges,
+      });
+    },
+    
     onNodesChange: (changes) => {
       set({
         nodes: applyNodeChanges(changes, get().nodes),
